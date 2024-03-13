@@ -30,3 +30,4 @@ const Navigation = ({type})=>{
 
 
 export default AuthLayout;
+  
