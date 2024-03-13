@@ -15,3 +15,4 @@ const AuthLayout = (props) => {
 };
 
 export default AuthLayout;
+  
