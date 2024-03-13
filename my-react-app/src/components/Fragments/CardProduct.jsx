@@ -3,6 +3,7 @@ import Button from "../Elements/Button";
 const CardProduct = (props) => {
     const { children } = props;
     return (
+        // gasdsiaidoasido
         <div className="w-full max-w-sm bg-gray-800 border border-gray-700 rounded-lg shadow mx-2">
             <div className="px-5 pb-5">
                 {children}
