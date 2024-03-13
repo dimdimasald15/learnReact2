@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import FormRegister from "../components/Fragments/FormRegister";
 import AuthLayout from "../components/Layouts/AuthLayouts";
 
@@ -7,11 +6,9 @@ const RegisterPage = () => {
         <AuthLayout
             title="Register"
             subtitle="Welcome, Please Registration your account!"
+            type = "register"
         >
             <FormRegister/>
-            <p className="text-sm mt-5 text-center">
-                Already have an account? <Link to="/login" className="font-bold text-blue-600">Login</Link>
-            </p>
         </AuthLayout>
     );
 }
