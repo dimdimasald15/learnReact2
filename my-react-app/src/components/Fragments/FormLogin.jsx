@@ -3,9 +3,16 @@ import Button from "../Elements/Button";
 
 const FormLogin = (props) => {
     const { htmlfor, children } = props;
-  
+    const handleLogin =(e)=>{
+      e.preventDefault();
+      let email = e.target.email.value;
+      let password = e.target.password.value;
+      localStorage.setItem('email', email);
+      localStorage.setItem('password', password);
+      window.location.href="/products";
+    }
     return (
-        <form action="">
+        <form onSubmit={handleLogin}>
         <InputForm
           name="email"
           title="Email"
@@ -18,7 +25,7 @@ const FormLogin = (props) => {
           type="password"
           placeholder="*****"
         />
-        <Button variant="bg-blue-600 w-full">Login</Button>
+        <Button variant="bg-blue-600 w-full" type="submit">Login</Button>
       </form>
     );
   };
