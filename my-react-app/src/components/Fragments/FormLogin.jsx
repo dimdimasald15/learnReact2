@@ -1,32 +1,40 @@
 import InputForm from "../Elements/Input";
 import Button from "../Elements/Button";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { login } from "../../services/auth.service";
 
 const FormLogin = (props) => {
   const { htmlfor, children } = props;
+  const [loginFailed, setLoginFailed] = useState("");
   const handleLogin = (e) => {
     e.preventDefault();
-    let email = e.target.email.value;
+    let username = e.target.username.value;
     let password = e.target.password.value;
-    localStorage.setItem('email', email);
-    localStorage.setItem('password', password);
-    window.location.href = "/products";
-  }
+    const data = { username:username, password:password };
+    login(data, (status, res) => {
+      if (status) {
+        localStorage.setItem("token", res);
+        window.location.href = "/products";
+      } else {
+        setLoginFailed(res.response.data);
+      }
+    });
+  };
 
-  const emailRef = useRef(null);
+  const usernameRef = useRef(null);
 
   useEffect(() => {
-    emailRef.current.focus()
-  }, [])
+    usernameRef.current.focus();
+  }, []);
 
   return (
     <form onSubmit={handleLogin}>
       <InputForm
-        name="email"
-        title="Email"
+        name="username"
+        title="Username"
         type="text"
-        placeholder="example@mail.com"
-        ref={emailRef}
+        placeholder="Jhon doe"
+        ref={usernameRef}
       />
       <InputForm
         name="password"
@@ -34,7 +42,17 @@ const FormLogin = (props) => {
         type="password"
         placeholder="*****"
       />
-      <Button variant="bg-blue-600 w-full" type="submit">Login</Button>
+      <Button variant="bg-blue-600 w-full" type="submit">
+        Login
+      </Button>
+      {loginFailed && (
+        <div
+          className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50"
+          role="alert"
+        >
+          <span className="font-medium">{loginFailed}</span>
+        </div>
+      )}
     </form>
   );
 };
