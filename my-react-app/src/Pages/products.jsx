@@ -3,22 +3,27 @@ import CardProduct from "../components/Fragments/CardProduct";
 import Button from "../components/Elements/Button";
 import Counter from "../components/Fragments/Counter";
 import getProducts from "../services/product.service";
-
-const email = localStorage.getItem("email");
+import { getUsername } from "../services/auth.service";
 
 const ProductsPage = () => {
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [products, setProducts] = useState([]);
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
     setCart(JSON.parse(localStorage.getItem("cart")) || []);
+    if (token) {
+      setUsername(getUsername(token));
+    } else {
+      window.location.href = "/login";
+    }
   }, []);
 
   useEffect(() => {
     getProducts((data) => {
-    //   console.log(data);
-    setProducts(data);
+      setProducts(data);
     });
   });
 
@@ -34,8 +39,7 @@ const ProductsPage = () => {
   }, [cart, products]);
 
   const handleLogout = () => {
-    localStorage.removeItem("email");
-    localStorage.removeItem("password");
+    localStorage.removeItem("token");
     location.href = "/login";
   };
 
@@ -70,7 +74,7 @@ const ProductsPage = () => {
   return (
     <Fragment>
       <div className="flex justify-end h-20 bg-blue-600 text-white items-center px-10">
-        {email}
+        {username}
         <Button variant="ml-5 bg-black" onClick={handleLogout}>
           Logout
         </Button>
@@ -125,7 +129,7 @@ const ProductsPage = () => {
                       return (
                         <tr key={item.id}>
                           <td className="border border-black font-medium p-1 text-left">
-                            {product.title.substring(0,30)}...
+                            {product.title.substring(0, 30)}...
                           </td>
                           <td className="border border-black font-medium p-1 text-left">
                             ${product.price.toLocaleString("id-ID")}
@@ -134,7 +138,8 @@ const ProductsPage = () => {
                             {item.qty}
                           </td>
                           <td className="border border-black font-medium p-1 text-right">
-                            ${(item.qty * product.price).toLocaleString("id-ID")}
+                            $
+                            {(item.qty * product.price).toLocaleString("id-ID")}
                           </td>
                         </tr>
                       );
