@@ -6,10 +6,10 @@ const store = configureStore({
     cart: cartReducer,
   },
 });
-console.log("onCreate Process : ", store.getState());
+// console.log("onCreate Process : ", store.getState());
 
-store.subscribe(() => {
-    console.log("STORE CHANGE : ", store.getState());
-  });
+// store.subscribe(() => {
+    // console.log("STORE CHANGE : ", store.getState());
+//   });
 
 export default store;
